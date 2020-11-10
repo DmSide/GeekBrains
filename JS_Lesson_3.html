@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <button onclick="task1()">Task 1</button>
+    <button onclick="task4()">Task 4</button>
+    <button onclick="task5()">Task 5</button>
+    <hr>
+    <button onclick="bulls_and_cows()">Bulls&Cows</button>
+    <script>
+        function numIsSimple(i, arr){
+            j = 0;
+            while (j<= arr.length){
+                if (i % arr[j] == 0) {
+                    return false;
+                }
+                j++;
+            }
+            return true;
+        }
+        function task1() {
+            let arr = [];
+            console.log(1);
+            var i = 2;
+            while (i<=100){
+                if (numIsSimple(i, arr)){
+                    arr.push(i);
+                    console.log(i);
+                }
+                i++;
+            }  
+        }
+
+        function task4() {
+            for (let i=0; i<=9; console.log(i++)){} 
+        }
+        
+        function task5() {
+            for (let i=1; i<=20; i++){
+               console.log("*".repeat(i));   
+            } 
+        }
+        
+        function get_digit(num, order){
+            return Math.floor(num/10**order) % 10
+        }
+        function count_bulls(player, pc){
+            let bulls = 0;
+            for (let i=0; i<4; i++){
+                player_digit = get_digit(player,i);
+                pc_digit = get_digit(pc,i);
+                bulls += +(player_digit === pc_digit);
+            }
+            return bulls;
+        }
+        
+        function count_cows(player, pc){
+            let cows = 0;
+            for (let i=0; i<4; i++){
+                player_digit = get_digit(player,i);
+                for (let j=0; j<4; j++){
+                    if (i == j) {
+                        continue;
+                    }
+                    pc_digit = get_digit(pc,j);
+                    if (player_digit !== pc_digit){
+                        continue;
+                    }
+                    cows += +(i !== j);
+                }
+            }
+            return cows;
+        }
+        
+        function random4Digit(){
+          return shuffle( "0123456789".split('') ).join('').substring(0,4);
+        }
+
+        function shuffle(o){
+            for(var j, x, i = o.length; i; j = Math.floor(Math.random() * i), x = o[--i], o[i] = o[j], o[j] = x);
+            return o;
+        }
+        
+        function bulls_and_cows() {
+            const attempts = 10;
+            var cur_attempt = 1;
+            // var guessed_number = Math.floor(Math.random() * 10000);
+            var guessed_number = +random4Digit();
+            var isGuessed = false;
+            // console.log("Only for test game: " + guessed_number);
+            while (cur_attempt <= attempts && !isGuessed) {
+                let num = +prompt("Enter 4-digit number");
+                console.log(num);
+                bulls = count_bulls(num, guessed_number);
+                console.log("Bulls: "+bulls);
+                cows = count_cows(num, guessed_number);
+                console.log("Cows: "+cows);
+                isGuessed = bulls === 4;
+                cur_attempt++;
+            }
+            console.log(isGuessed?"You won":"You lose");     
+        }
+    </script>
+</body>
+</html>
